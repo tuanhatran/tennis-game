@@ -74,7 +74,7 @@ public class TennisGame {
 
     public void markPoint(Side winSide) {
         final Pair<Integer, Integer> actualPointScore = getPointScore();
-        if (actualPointScore.snd < 40 && actualPointScore.fst < 40) {
+        if (cannotWinGameYet(actualPointScore)) {
             if (winSide == firstSide) {
                 firstSide.markPoint();
                 setPointScore(new Pair<>(firstSide.getPointScore(), secondSide.getPointScore()));
@@ -83,5 +83,9 @@ public class TennisGame {
                 setPointScore(new Pair<>(firstSide.getPointScore(), secondSide.getPointScore()));
             }
         }
+    }
+
+    private boolean cannotWinGameYet(Pair<Integer, Integer> actualPointScore) {
+        return actualPointScore.snd < 40 && actualPointScore.fst < 40;
     }
 }

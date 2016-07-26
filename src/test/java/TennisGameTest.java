@@ -49,4 +49,49 @@ public class TennisGameTest {
 
         assertThat(tennisGame, is(expectedTennisGame));
     }
+
+    @Test
+    public void testFirstSideWinByMark4PointsFirst() throws Exception {
+        final TennisGame expectedTennisGame = new TennisGame("Player 1", "Player 2");
+        expectedTennisGame.setPointScore(new Pair<>(0, 0));
+        expectedTennisGame.setGameScore(new Pair<>(1, 0));
+        expectedTennisGame.setSetScore(new Pair<>(0, 0));
+        expectedTennisGame.getFirstSide().setGameScore(1);
+
+        allSidesMarkPoint();
+        allSidesMarkPoint();
+        firstSideMark2Points();
+
+        assertThat(tennisGame, is(expectedTennisGame));
+    }
+
+    @Test
+    public void testSecondSideWinByMark4PointsFirst() throws Exception {
+        final TennisGame expectedTennisGame = new TennisGame("Player 1", "Player 2");
+        expectedTennisGame.setPointScore(new Pair<>(0, 0));
+        expectedTennisGame.setGameScore(new Pair<>(0, 1));
+        expectedTennisGame.setSetScore(new Pair<>(0, 0));
+        expectedTennisGame.getSecondSide().setGameScore(1);
+
+        allSidesMarkPoint();
+        allSidesMarkPoint();
+        secondSideMark2Points();
+
+        assertThat(tennisGame, is(expectedTennisGame));
+    }
+
+    private void secondSideMark2Points() {
+        tennisGame.markPoint(tennisGame.getSecondSide());
+        tennisGame.markPoint(tennisGame.getSecondSide());
+    }
+
+    private void firstSideMark2Points() {
+        tennisGame.markPoint(tennisGame.getFirstSide());
+        tennisGame.markPoint(tennisGame.getFirstSide());
+    }
+
+    private void allSidesMarkPoint() {
+        tennisGame.markPoint(tennisGame.getFirstSide());
+        tennisGame.markPoint(tennisGame.getSecondSide());
+    }
 }
