@@ -2,6 +2,8 @@ import com.sun.tools.javac.util.Pair;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.stream.IntStream;
+
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
@@ -75,6 +77,34 @@ public class TennisGameTest {
 
         allSidesMarkPoint();
         allSidesMarkPoint();
+        secondSideMark2Points();
+
+        assertThat(tennisGame, is(expectedTennisGame));
+    }
+
+    @Test
+    public void testFirstSideWinAfterDeuce(){
+        final TennisGame expectedTennisGame = new TennisGame("Player 1", "Player 2");
+        expectedTennisGame.setPointScore(new Pair<>(0, 0));
+        expectedTennisGame.setGameScore(new Pair<>(1, 0));
+        expectedTennisGame.setSetScore(new Pair<>(0, 0));
+        expectedTennisGame.getFirstSide().setGameScore(1);
+
+        IntStream.range(0, 4).forEach(n -> allSidesMarkPoint());
+        firstSideMark2Points();
+
+        assertThat(tennisGame, is(expectedTennisGame));
+    }
+
+    @Test
+    public void testSecondSideWinAfterDeuce(){
+        final TennisGame expectedTennisGame = new TennisGame("Player 1", "Player 2");
+        expectedTennisGame.setPointScore(new Pair<>(0, 0));
+        expectedTennisGame.setGameScore(new Pair<>(0, 1));
+        expectedTennisGame.setSetScore(new Pair<>(0, 0));
+        expectedTennisGame.getSecondSide().setGameScore(1);
+
+        IntStream.range(0, 4).forEach(n -> allSidesMarkPoint());
         secondSideMark2Points();
 
         assertThat(tennisGame, is(expectedTennisGame));
