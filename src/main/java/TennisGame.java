@@ -86,7 +86,13 @@ public class TennisGame {
             firstSide.setPointScore(0);
             setPointScore(new Pair<>(0, 0));
             setGameScore(new Pair<>(0, 1));
+        } else if (deuce(actualPointScore)){
+            // TODO
         }
+    }
+
+    private boolean deuce(Pair<Integer, Integer> actualPointScore) {
+        return actualPointScore.snd == 40 && actualPointScore.fst == 40;
     }
 
     private boolean secondSideCanWin(Side winSide, Pair<Integer, Integer> actualPointScore) {
