@@ -24,7 +24,7 @@ public class TennisGame {
     }
 
     public Pair<Integer, Integer> getPointScore() {
-        return pointScore;
+        return new Pair<>(firstSide.getPointScore(), secondSide.getPointScore());
     }
 
     public void setPointScore(Pair<Integer, Integer> pointScore) {
@@ -32,7 +32,7 @@ public class TennisGame {
     }
 
     public Pair<Integer, Integer> getGameScore() {
-        return gameScore;
+        return new Pair<>(firstSide.getGameScore(), secondSide.getGameScore());
     }
 
     public void setGameScore(Pair<Integer, Integer> gameScore) {
@@ -40,7 +40,7 @@ public class TennisGame {
     }
 
     public Pair<Integer, Integer> getSetScore() {
-        return setScore;
+        return new Pair<>(firstSide.getSetScore(), secondSide.getSetScore());
     }
 
     public void setSetScore(Pair<Integer, Integer> setScore) {
@@ -73,5 +73,15 @@ public class TennisGame {
     }
 
     public void markPoint(Side winSide) {
+        final Pair<Integer, Integer> actualPointScore = getPointScore();
+        if (actualPointScore.snd < 40 && actualPointScore.fst < 40) {
+            if (winSide == firstSide) {
+                firstSide.markPoint();
+                setPointScore(new Pair<>(firstSide.getPointScore(), secondSide.getPointScore()));
+            } else {
+                secondSide.markPoint();
+                setPointScore(new Pair<>(firstSide.getPointScore(), secondSide.getPointScore()));
+            }
+        }
     }
 }

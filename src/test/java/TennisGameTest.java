@@ -49,5 +49,4 @@ public class TennisGameTest {
 
         assertThat(tennisGame, is(expectedTennisGame));
     }
-
 }

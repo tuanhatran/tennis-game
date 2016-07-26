@@ -68,5 +68,15 @@ class Side {
     }
 
     public void markPoint() {
+        if (pointScore == 0) {
+            pointScore = 15;
+        } else if (pointScore == 15) {
+            pointScore = 30;
+        } else if (pointScore == 30) {
+            pointScore = 40;
+        } else if (pointScore == 40) {
+            gameScore++;
+            pointScore = 0;
+        }
     }
 }
