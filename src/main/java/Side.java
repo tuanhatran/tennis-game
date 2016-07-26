@@ -66,4 +66,7 @@ class Side {
         result = 31 * result + (setScore != null ? setScore.hashCode() : 0);
         return result;
     }
+
+    public void markPoint() {
+    }
 }
