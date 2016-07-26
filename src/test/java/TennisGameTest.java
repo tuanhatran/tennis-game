@@ -90,7 +90,7 @@ public class TennisGameTest {
         expectedTennisGame.setSetScore(new Pair<>(0, 0));
         expectedTennisGame.getFirstSide().setGameScore(1);
 
-        IntStream.range(0, 4).forEach(n -> allSidesMarkPoint());
+        IntStream.range(0, 3).forEach(n -> allSidesMarkPoint());
         firstSideMark2Points();
 
         assertThat(tennisGame, is(expectedTennisGame));
@@ -104,7 +104,7 @@ public class TennisGameTest {
         expectedTennisGame.setSetScore(new Pair<>(0, 0));
         expectedTennisGame.getSecondSide().setGameScore(1);
 
-        IntStream.range(0, 4).forEach(n -> allSidesMarkPoint());
+        IntStream.range(0, 3).forEach(n -> allSidesMarkPoint());
         secondSideMark2Points();
 
         assertThat(tennisGame, is(expectedTennisGame));

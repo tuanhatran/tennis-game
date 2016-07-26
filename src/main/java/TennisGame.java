@@ -68,27 +68,71 @@ public class TennisGame {
 
     public void markPoint(Side winSide) {
         final Pair<Integer, Integer> actualPointScore = getPointScore();
-        if (cannotWinGameYet(actualPointScore)) {
-            if (winSide == firstSide) {
-                firstSide.markPoint();
-                setPointScore(new Pair<>(firstSide.getPointScore(), secondSide.getPointScore()));
-            } else {
-                secondSide.markPoint();
-                setPointScore(new Pair<>(firstSide.getPointScore(), secondSide.getPointScore()));
-            }
-        } else if (firstSideCanWin(winSide, actualPointScore)) {
-            firstSide.markPoint();
-            secondSide.setPointScore(0);
-            setPointScore(new Pair<>(0, 0));
-            setGameScore(new Pair<>(1, 0));
+        if (firstSideCanWin(winSide, actualPointScore)) {
+            firstSideWinGame();
         } else if (secondSideCanWin(winSide, actualPointScore)) {
-            secondSide.markPoint();
-            firstSide.setPointScore(0);
-            setPointScore(new Pair<>(0, 0));
-            setGameScore(new Pair<>(0, 1));
-        } else if (deuce(actualPointScore)){
-            // TODO
+            secondSideWinGame();
+        } else if (deuce(actualPointScore)) {
+            gameWhenDeuce(winSide);
+        } else {
+            gameWhenNoSideCanWin(winSide);
         }
+    }
+
+    private void gameWhenNoSideCanWin(Side winSide) {
+        if (firstSideWin(winSide)) {
+            firstSideMarkPoint();
+        } else {
+            secondSideMarkPoint();
+        }
+    }
+
+    private void gameWhenDeuce(Side winSide) {
+        if (firstSide.hasAdvantage() && firstSideWin(winSide)) {
+            firstSideWinGame();
+        } else if (secondSide.hasAdvantage() && secondSideWin(winSide)) {
+            secondSideWinGame();
+        } else {
+            if (firstSideWin(winSide)) {
+                firstSide.setAdvantage(true);
+            } else {
+                secondSide.setAdvantage(true);
+            }
+        }
+    }
+
+    private void secondSideMarkPoint() {
+        secondSide.markPoint();
+        setPointScore(new Pair<>(firstSide.getPointScore(), secondSide.getPointScore()));
+    }
+
+    private void firstSideMarkPoint() {
+        firstSide.markPoint();
+        setPointScore(new Pair<>(firstSide.getPointScore(), secondSide.getPointScore()));
+    }
+
+    private void secondSideWinGame() {
+        secondSide.markPoint();
+        secondSide.resetAdvantage();
+        firstSide.resetPointScore();
+        setPointScore(new Pair<>(0, 0));
+        setGameScore(new Pair<>(0, secondSide.getGameScore()));
+    }
+
+    private void firstSideWinGame() {
+        firstSide.markPoint();
+        firstSide.resetAdvantage();
+        secondSide.resetPointScore();
+        setPointScore(new Pair<>(0, 0));
+        setGameScore(new Pair<>(firstSide.getGameScore(), 0));
+    }
+
+    private boolean secondSideWin(Side winSide) {
+        return winSide == secondSide;
+    }
+
+    private boolean firstSideWin(Side winSide) {
+        return winSide == firstSide;
     }
 
     private boolean deuce(Pair<Integer, Integer> actualPointScore) {
@@ -96,14 +140,10 @@ public class TennisGame {
     }
 
     private boolean secondSideCanWin(Side winSide, Pair<Integer, Integer> actualPointScore) {
-        return actualPointScore.snd == 40 && actualPointScore.fst < 40 && winSide == secondSide;
+        return actualPointScore.snd == 40 && actualPointScore.fst < 40 && secondSideWin(winSide);
     }
 
     private boolean firstSideCanWin(Side winSide, Pair<Integer, Integer> actualPointScore) {
-        return actualPointScore.fst == 40 && actualPointScore.snd < 40 && winSide == firstSide;
-    }
-
-    private boolean cannotWinGameYet(Pair<Integer, Integer> actualPointScore) {
-        return actualPointScore.snd < 40 && actualPointScore.fst < 40;
+        return actualPointScore.fst == 40 && actualPointScore.snd < 40 && firstSideWin(winSide);
     }
 }

@@ -7,6 +7,7 @@ class Side {
     private Integer pointScore;
     private Integer gameScore;
     private Integer setScore;
+    private boolean advantage;
 
     public Side(String... players) {
         this.players = new ArrayList<>();
@@ -40,6 +41,14 @@ class Side {
         return setScore;
     }
 
+    public boolean hasAdvantage() {
+        return advantage;
+    }
+
+    public void setAdvantage(boolean advantage) {
+        this.advantage = advantage;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -47,6 +56,7 @@ class Side {
 
         Side side = (Side) o;
 
+        if (advantage != side.advantage) return false;
         if (players != null ? !players.equals(side.players) : side.players != null) return false;
         if (pointScore != null ? !pointScore.equals(side.pointScore) : side.pointScore != null) return false;
         if (gameScore != null ? !gameScore.equals(side.gameScore) : side.gameScore != null) return false;
@@ -60,6 +70,7 @@ class Side {
         result = 31 * result + (pointScore != null ? pointScore.hashCode() : 0);
         result = 31 * result + (gameScore != null ? gameScore.hashCode() : 0);
         result = 31 * result + (setScore != null ? setScore.hashCode() : 0);
+        result = 31 * result + (advantage ? 1 : 0);
         return result;
     }
 
@@ -74,5 +85,13 @@ class Side {
             gameScore++;
             pointScore = 0;
         }
+    }
+
+    public void resetAdvantage() {
+        advantage = false;
+    }
+
+    public void resetPointScore() {
+        pointScore = 0;
     }
 }
