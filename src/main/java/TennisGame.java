@@ -146,4 +146,8 @@ public class TennisGame {
     private boolean firstSideCanWin(Side winSide, Pair<Integer, Integer> actualPointScore) {
         return actualPointScore.fst == 40 && actualPointScore.snd < 40 && firstSideWin(winSide);
     }
+
+    public String status() {
+        return null;
+    }
 }

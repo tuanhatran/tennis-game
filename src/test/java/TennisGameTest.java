@@ -124,4 +124,18 @@ public class TennisGameTest {
         tennisGame.markPoint(tennisGame.getFirstSide());
         tennisGame.markPoint(tennisGame.getSecondSide());
     }
+
+    @Test
+    public void testGameStatus() throws Exception {
+        IntStream.range(0, 3).forEach(n -> allSidesMarkPoint());
+        secondSideMark2Points();
+
+        final String gameStatus = tennisGame.status();
+
+        final String expectedStatus = "Game between Player 1 & Player 2\n" +
+                                      "The actual score is :\n" +
+                                      "1 - 0 for player 1\n" +
+                                      "at set 1";
+        assertThat(gameStatus, is(expectedStatus));
+    }
 }
