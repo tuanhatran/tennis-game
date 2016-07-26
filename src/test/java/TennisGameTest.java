@@ -29,9 +29,9 @@ public class TennisGameTest {
     @Test
     public void testFirstSideWinOnePoint() throws Exception {
         final TennisGame expectedTennisGame = new TennisGame("Player 1", "Player 2");
-        expectedTennisGame.setPointScore(new Pair<>(15, 0));
-        expectedTennisGame.setGameScore(new Pair<>(0, 0));
-        expectedTennisGame.setSetScore(new Pair<>(0, 0));
+        expectedTennisGame.setPointScore(Pair.of(15, 0));
+        expectedTennisGame.setGameScore(Pair.of(0, 0));
+        expectedTennisGame.setSetScore(Pair.of(0, 0));
         expectedTennisGame.getFirstSide().markPoint();
 
         tennisGame.markPoint(tennisGame.getFirstSide());
@@ -42,9 +42,9 @@ public class TennisGameTest {
     @Test
     public void testSecondSideWinOnePoint() throws Exception {
         final TennisGame expectedTennisGame = new TennisGame("Player 1", "Player 2");
-        expectedTennisGame.setPointScore(new Pair<>(0, 15));
-        expectedTennisGame.setGameScore(new Pair<>(0, 0));
-        expectedTennisGame.setSetScore(new Pair<>(0, 0));
+        expectedTennisGame.setPointScore(Pair.of(0, 15));
+        expectedTennisGame.setGameScore(Pair.of(0, 0));
+        expectedTennisGame.setSetScore(Pair.of(0, 0));
         expectedTennisGame.getSecondSide().markPoint();
 
         tennisGame.markPoint(tennisGame.getSecondSide());
@@ -55,9 +55,9 @@ public class TennisGameTest {
     @Test
     public void testFirstSideWinByMark4PointsFirst() throws Exception {
         final TennisGame expectedTennisGame = new TennisGame("Player 1", "Player 2");
-        expectedTennisGame.setPointScore(new Pair<>(0, 0));
-        expectedTennisGame.setGameScore(new Pair<>(1, 0));
-        expectedTennisGame.setSetScore(new Pair<>(0, 0));
+        expectedTennisGame.setPointScore(Pair.of(0, 0));
+        expectedTennisGame.setGameScore(Pair.of(1, 0));
+        expectedTennisGame.setSetScore(Pair.of(0, 0));
         expectedTennisGame.getFirstSide().setGameScore(1);
 
         allSidesMarkPoint();
@@ -70,9 +70,9 @@ public class TennisGameTest {
     @Test
     public void testSecondSideWinByMark4PointsFirst() throws Exception {
         final TennisGame expectedTennisGame = new TennisGame("Player 1", "Player 2");
-        expectedTennisGame.setPointScore(new Pair<>(0, 0));
-        expectedTennisGame.setGameScore(new Pair<>(0, 1));
-        expectedTennisGame.setSetScore(new Pair<>(0, 0));
+        expectedTennisGame.setPointScore(Pair.of(0, 0));
+        expectedTennisGame.setGameScore(Pair.of(0, 1));
+        expectedTennisGame.setSetScore(Pair.of(0, 0));
         expectedTennisGame.getSecondSide().setGameScore(1);
 
         allSidesMarkPoint();
@@ -85,9 +85,9 @@ public class TennisGameTest {
     @Test
     public void testFirstSideWinAfterDeuce(){
         final TennisGame expectedTennisGame = new TennisGame("Player 1", "Player 2");
-        expectedTennisGame.setPointScore(new Pair<>(0, 0));
-        expectedTennisGame.setGameScore(new Pair<>(1, 0));
-        expectedTennisGame.setSetScore(new Pair<>(0, 0));
+        expectedTennisGame.setPointScore(Pair.of(0, 0));
+        expectedTennisGame.setGameScore(Pair.of(1, 0));
+        expectedTennisGame.setSetScore(Pair.of(0, 0));
         expectedTennisGame.getFirstSide().setGameScore(1);
 
         IntStream.range(0, 3).forEach(n -> allSidesMarkPoint());
@@ -99,9 +99,9 @@ public class TennisGameTest {
     @Test
     public void testSecondSideWinAfterDeuce(){
         final TennisGame expectedTennisGame = new TennisGame("Player 1", "Player 2");
-        expectedTennisGame.setPointScore(new Pair<>(0, 0));
-        expectedTennisGame.setGameScore(new Pair<>(0, 1));
-        expectedTennisGame.setSetScore(new Pair<>(0, 0));
+        expectedTennisGame.setPointScore(Pair.of(0, 0));
+        expectedTennisGame.setGameScore(Pair.of(0, 1));
+        expectedTennisGame.setSetScore(Pair.of(0, 0));
         expectedTennisGame.getSecondSide().setGameScore(1);
 
         IntStream.range(0, 3).forEach(n -> allSidesMarkPoint());
@@ -127,15 +127,17 @@ public class TennisGameTest {
 
     @Test
     public void testGameStatus() throws Exception {
-        IntStream.range(0, 3).forEach(n -> allSidesMarkPoint());
-        secondSideMark2Points();
+        tennisGame.setPointScore(Pair.of(30,0));
+        tennisGame.setGameScore(Pair.of(0,2));
+        tennisGame.setSetScore(Pair.of(1,0));
 
         final String gameStatus = tennisGame.status();
 
-        final String expectedStatus = "Game between Player 1 & Player 2\n" +
+        final String expectedStatus = "Tennis game between Player 1 & Player 2\n" +
                                       "The actual score is :\n" +
-                                      "1 - 0 for player 1\n" +
-                                      "at set 1";
+                                      "Point 30 - 0\n" +
+                                      "Game 0 - 2\n" +
+                                      "Set 1 - 0\n";
         assertThat(gameStatus, is(expectedStatus));
     }
 }

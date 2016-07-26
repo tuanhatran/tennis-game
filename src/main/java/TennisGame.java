@@ -1,5 +1,8 @@
 import com.sun.tools.javac.util.Pair;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class TennisGame {
     private final Side firstSide;
     private final Side secondSide;
@@ -10,9 +13,9 @@ public class TennisGame {
     public TennisGame(String firstSideNames, String secondSideNames) {
         firstSide = new Side(firstSideNames);
         secondSide = new Side(secondSideNames);
-        pointScore = new Pair<>(0, 0);
-        gameScore = new Pair<>(0, 0);
-        setScore = new Pair<>(0, 0);
+        pointScore = Pair.of(0, 0);
+        gameScore = Pair.of(0, 0);
+        setScore = Pair.of(0, 0);
     }
 
     public Side getFirstSide() {
@@ -103,28 +106,28 @@ public class TennisGame {
 
     private void secondSideMarkPoint() {
         secondSide.markPoint();
-        setPointScore(new Pair<>(firstSide.getPointScore(), secondSide.getPointScore()));
+        setPointScore(Pair.of(firstSide.getPointScore(), secondSide.getPointScore()));
     }
 
     private void firstSideMarkPoint() {
         firstSide.markPoint();
-        setPointScore(new Pair<>(firstSide.getPointScore(), secondSide.getPointScore()));
+        setPointScore(Pair.of(firstSide.getPointScore(), secondSide.getPointScore()));
     }
 
     private void secondSideWinGame() {
         secondSide.markPoint();
         secondSide.resetAdvantage();
         firstSide.resetPointScore();
-        setPointScore(new Pair<>(0, 0));
-        setGameScore(new Pair<>(0, secondSide.getGameScore()));
+        setPointScore(Pair.of(0, 0));
+        setGameScore(Pair.of(0, secondSide.getGameScore()));
     }
 
     private void firstSideWinGame() {
         firstSide.markPoint();
         firstSide.resetAdvantage();
         secondSide.resetPointScore();
-        setPointScore(new Pair<>(0, 0));
-        setGameScore(new Pair<>(firstSide.getGameScore(), 0));
+        setPointScore(Pair.of(0, 0));
+        setGameScore(Pair.of(firstSide.getGameScore(), 0));
     }
 
     private boolean secondSideWin(Side winSide) {
@@ -148,6 +151,17 @@ public class TennisGame {
     }
 
     public String status() {
-        return null;
+        final List<String> firstSidePlayerNames = firstSide.getPlayers().stream().map(Player::getPlayerName).collect(Collectors.toList());
+        final List<String> secondSidePlayerNames = secondSide.getPlayers().stream().map(Player::getPlayerName).collect(Collectors.toList());
+        return "Tennis game between ".concat(String.join(", ", firstSidePlayerNames)).concat(" & ")
+                .concat(String.join(", ", secondSidePlayerNames)).concat("\n")
+                .concat("The actual score is :\n")
+                .concat(pointScore != Pair.of(0, 0) ? "Point " + toScore(pointScore) : "")
+                .concat(gameScore != Pair.of(0, 0) ? "Game " + toScore(gameScore) : "")
+                .concat(setScore != Pair.of(0, 0) ? "Set " + toScore(setScore) : "");
+    }
+
+    private String toScore(Pair<Integer, Integer> score) {
+        return score.fst + " - " + score.snd + "\n";
     }
 }
