@@ -40,10 +40,6 @@ class Side {
         return setScore;
     }
 
-    public void setSetScore(Integer setScore) {
-        this.setScore = setScore;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

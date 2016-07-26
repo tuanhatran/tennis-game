@@ -31,17 +31,11 @@ public class TennisGame {
         this.pointScore = pointScore;
     }
 
-    public Pair<Integer, Integer> getGameScore() {
-        return new Pair<>(firstSide.getGameScore(), secondSide.getGameScore());
-    }
 
     public void setGameScore(Pair<Integer, Integer> gameScore) {
         this.gameScore = gameScore;
     }
 
-    public Pair<Integer, Integer> getSetScore() {
-        return new Pair<>(firstSide.getSetScore(), secondSide.getSetScore());
-    }
 
     public void setSetScore(Pair<Integer, Integer> setScore) {
         this.setScore = setScore;
@@ -82,7 +76,25 @@ public class TennisGame {
                 secondSide.markPoint();
                 setPointScore(new Pair<>(firstSide.getPointScore(), secondSide.getPointScore()));
             }
+        } else if (firstSideCanWin(winSide, actualPointScore)) {
+            firstSide.markPoint();
+            secondSide.setPointScore(0);
+            setPointScore(new Pair<>(0, 0));
+            setGameScore(new Pair<>(1, 0));
+        } else if (secondSideCanWin(winSide, actualPointScore)) {
+            secondSide.markPoint();
+            firstSide.setPointScore(0);
+            setPointScore(new Pair<>(0, 0));
+            setGameScore(new Pair<>(0, 1));
         }
+    }
+
+    private boolean secondSideCanWin(Side winSide, Pair<Integer, Integer> actualPointScore) {
+        return actualPointScore.snd == 40 && actualPointScore.fst < 40 && winSide == secondSide;
+    }
+
+    private boolean firstSideCanWin(Side winSide, Pair<Integer, Integer> actualPointScore) {
+        return actualPointScore.fst == 40 && actualPointScore.snd < 40 && winSide == firstSide;
     }
 
     private boolean cannotWinGameYet(Pair<Integer, Integer> actualPointScore) {
